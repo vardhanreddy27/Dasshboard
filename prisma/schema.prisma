@@ -1,0 +1,93 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// Uploaded files metadata
+model UploadedFile {
+  id           String   @id @default(cuid())
+  fileName     String
+  reportType   String
+  periodMonth  Int
+  periodYear   Int
+  sizeBytes    Int?
+  rowsInserted Int      @default(0)
+  createdAt    DateTime @default(now())
+}
+
+// Sales Day Book
+model SalesFact {
+  id               BigInt   @id @default(autoincrement())
+  periodMonth      Int
+  periodYear       Int
+  date             DateTime
+  voucherName      String?
+  voucher          String?
+  customerName     String?
+  quantity         Decimal? @db.Decimal(18, 4)
+  rate             Decimal? @db.Decimal(18, 4)
+  gross            Decimal? @db.Decimal(18, 4)
+  taxableValue     Decimal? @db.Decimal(18, 4)
+  avgPurchasePrice Decimal? @db.Decimal(18, 4)
+  avgPPGross       Decimal? @db.Decimal(18, 4)
+  profitMargin     Decimal? @db.Decimal(18, 4)
+  itemName         String?
+
+  @@index([periodYear, periodMonth])
+}
+
+// Profit Margin
+model ProfitMarginFact {
+  id               BigInt   @id @default(autoincrement())
+  periodMonth      Int
+  periodYear       Int
+  date             DateTime
+  customerName     String?
+  docNo            String?
+  itemName         String?
+  unitName         String?
+  quantity         Decimal? @db.Decimal(18, 4)
+  rate             Decimal? @db.Decimal(18, 4)
+  gross            Decimal? @db.Decimal(18, 4)
+  taxableValue     Decimal? @db.Decimal(18, 4)
+  avgPurchasePrice Decimal? @db.Decimal(18, 4)
+  appGross         Decimal? @db.Decimal(18, 4)
+  grossProfit      Decimal? @db.Decimal(18, 4)
+  gpMarginPct      Decimal? @db.Decimal(18, 4)
+
+  @@index([periodYear, periodMonth])
+  @@index([docNo])
+}
+
+// Stock Ageing
+model StockAgeingFact {
+  id          BigInt   @id @default(autoincrement())
+  periodMonth Int
+  periodYear  Int
+  particulars String?
+  totalQty    Decimal? @db.Decimal(18, 4)
+  totalValue  Decimal? @db.Decimal(18, 4)
+  q0_30       Decimal? @db.Decimal(18, 4)
+  v0_30       Decimal? @db.Decimal(18, 4)
+  q31_60      Decimal? @db.Decimal(18, 4)
+  v31_60      Decimal? @db.Decimal(18, 4)
+  q61_90      Decimal? @db.Decimal(18, 4)
+  v61_90      Decimal? @db.Decimal(18, 4)
+  q91_120     Decimal? @db.Decimal(18, 4)
+  v91_120     Decimal? @db.Decimal(18, 4)
+  q121_150    Decimal? @db.Decimal(18, 4)
+  v121_150    Decimal? @db.Decimal(18, 4)
+  q151_180    Decimal? @db.Decimal(18, 4)
+  v151_180    Decimal? @db.Decimal(18, 4)
+  q181_360    Decimal? @db.Decimal(18, 4)
+  v181_360    Decimal? @db.Decimal(18, 4)
+  q_gt_360    Decimal? @db.Decimal(18, 4)
+  v_gt_360    Decimal? @db.Decimal(18, 4)
+  warehouse   String?
+
+  @@index([periodYear, periodMonth])
+}

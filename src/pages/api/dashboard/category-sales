@@ -1,0 +1,35 @@
+import { PrismaClient } from "@prisma/client";
+
+const prisma = new PrismaClient();
+
+export default async function handler(req, res) {
+  const month = Number(req.query.month);
+  const year = Number(req.query.year);
+
+  try {
+    const results = await prisma.salesFact.groupBy({
+      by: ["itemName"],
+      where: {
+        periodMonth: month,
+        periodYear: year,
+      },
+      _sum: {
+        gross: true,
+      },
+      orderBy: {
+        _sum: { gross: "desc" },
+      },
+      take: 8, // top 8 items
+    });
+
+    const formatted = results.map((r) => ({
+      name: r.itemName || "Unnamed",
+      value: Number(r._sum.gross || 0),
+    }));
+
+    res.status(200).json({ data: formatted });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Failed to fetch category sales." });
+  }
+}
