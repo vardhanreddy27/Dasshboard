@@ -8,7 +8,6 @@
     "start": "next start",
     "lint": "next lint",
     "clean:prisma": "rimraf node_modules/.prisma node_modules/@prisma/client",
-    "vercel-build": "npm run clean:prisma && prisma generate && prisma migrate deploy && next build",
     "postinstall": "prisma generate"
   },
   "dependencies": {
