@@ -1,7 +1,13 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  reactStrictMode: true,
-  devIndicators: false,
+  experimental: {
+    outputFileTracingIncludes: {
+      // include Prisma engines in API lambdas
+      'pages/api/**': [
+        './node_modules/.prisma/client/**',
+        './node_modules/@prisma/client/**'
+      ]
+    }
+  }
 };
-
-export default nextConfig;
+module.exports = nextConfig;

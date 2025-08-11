@@ -4,10 +4,11 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  url      = env("postgresql://neondb_owner:npg_wb1EH7GLZYPN@ep-bitter-mode-a1pot0tp-pooler.ap-southeast-1.aws.neon.tech/neondb?sslmode=require")
+  url      = env("DATABASE_URL")
 }
 
-// Uploaded files metadata
+
+
 model UploadedFile {
   id           String   @id @default(cuid())
   fileName     String
