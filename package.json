@@ -7,12 +7,12 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "clean:prisma": "rimraf node_modules/.prisma node_modules/@prisma/client",
+    "clean:prisma": "npx rimraf node_modules/.prisma node_modules/@prisma/client",
     "vercel-build": "npm run clean:prisma && prisma generate && prisma migrate deploy",
     "postinstall": "prisma generate"
   },
   "dependencies": {
-    "@prisma/client": "6.12.0",
+    "@prisma/client": "^6.12.0",
     "date-fns": "^4.1.0",
     "formidable": "^3.5.4",
     "framer-motion": "^12.23.9",
@@ -20,6 +20,7 @@
     "next": "15.4.4",
     "openai": "^5.11.0",
     "plotly.js": "^3.0.3",
+    "prisma": "^6.12.0",
     "react": "19.1.0",
     "react-datepicker": "^8.4.0",
     "react-dom": "19.1.0",
@@ -35,11 +36,6 @@
     "@tailwindcss/postcss": "^4",
     "eslint": "^9",
     "eslint-config-next": "15.4.4",
-    "prisma": "6.12.0",
-    "rimraf": "6.0.1",
     "tailwindcss": "^4"
-  },
-  "engines": {
-    "node": ">=18"
   }
 }
